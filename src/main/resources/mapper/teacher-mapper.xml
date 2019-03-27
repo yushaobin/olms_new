@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.olms.mapper.TeacherMapper">
+   <!-- 添加教师信息 -->
+   <insert id="add" parameterType="Teacher">
+   	 insert into tb_teacher(tel,pwd,real_name,gender,email,degree,`desc`) values
+   	 (#{tel},#{pwd},#{realName},#{gender},#{email},#{degree},#{desc})
+   </insert>
+   
+   <select id="getTeacherByTel" resultType="Teacher">
+   	  select id,tel,pwd,real_name,gender,email,degree,`desc`,create_time from
+   	   tb_teacher where tel = #{tel}
+   </select>
+   
+   <!-- 根据token查询教师信息 -->
+   <select id="getTeacherByToken" resultType="Teacher">
+     select t.id,t.tel,t.pwd,t.real_name,t.gender,t.email,t.degree,t.`desc`,t.create_time from
+   	    tb_teacher t join tb_token t1 on t.id = t1.user_id where t1.token = #{token}
+   </select>
+</mapper>
