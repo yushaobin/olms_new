@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neuedu.olms.mapper.CourseMapper">
 	<resultMap type="Course" id="baseMap">
+		<result property="createUser.id"  column="t_id"/>
 		<result property="createUser.realName" column="real_name" />
 		<result property="createUser.gender" column="gender" />
 	</resultMap>
@@ -28,7 +29,7 @@
    
    <select id="getCourseByKeyword" resultMap="baseMap">
    		select t1.id,t1.course_name,t1.course_desc,t1.create_user,t1.wrapper_img,
-   			t1.`status`,t1.create_time, t2.real_name,t2.gender
+   			t1.`status`,t1.create_time,t2.id t_id ,t2.real_name,t2.gender
    		from tb_course t1 join tb_teacher t2 on t1.create_user = t2.id
    		<bind name="keywords" value="'%'+keyword+'%'" />
    		<where>
@@ -39,5 +40,32 @@
    		</where>
    		
    		limit #{begin},#{pageSize}
+   </select>
+   
+   <update id="update" parameterType="Course">
+   		update tb_course 
+   		<set>
+   			status = #{status},
+   			<if test="courseName != null">
+   				course_name = #{courseName},
+   			</if>
+   			<if test="courseDesc != null">
+   				course_desc = #{courseDesc},
+   			</if>
+   			<if test="wrapperImg != null">
+   				wrapper_img = #{wrapperImg},
+   			</if>
+   			<if test="createUser != null">
+   				create_user = #{createUser.id}
+   			</if>
+   		</set>
+   		where id = #{id}
+   </update>
+   
+   <select id="getCourseById" resultMap="baseMap">
+	   select t1.id,t1.course_name,t1.course_desc,t1.create_user,t1.wrapper_img,
+	   			t1.`status`,t1.create_time,t2.id t_id ,t2.real_name,t2.gender
+	   		from tb_course t1 join tb_teacher t2 on t1.create_user = t2.id
+	   		where t1.id = #{id}
    </select>
 </mapper>

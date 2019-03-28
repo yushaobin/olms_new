@@ -18,4 +18,10 @@ public interface CourseService {
 	 * @return
 	 */
 	public PageData<Course> list(String keyword,int pageSize,int curPage);
+	
+	/**
+	 * ¸üĞÂ¿Î³Ì
+	 * @param course
+	 */
+	public void update(Course course);
 }

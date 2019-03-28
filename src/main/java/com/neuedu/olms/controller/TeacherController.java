@@ -56,4 +56,5 @@ public class TeacherController {
 		rs.put("token", teacher.getTokenEntity().getToken());
 		return ApiResult.build().setData(rs);
 	}
+	
 }
